@@ -60,4 +60,7 @@ Color WorldBloc::getRenderColor() {
 	}
 }
 
+FloatRect WorldBloc::getBounds() {
+	return _vertex.getBounds();
+}
 

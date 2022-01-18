@@ -8,6 +8,8 @@
 
 #include "WorldBloc.h"
 #include "Player.h"
+#include "Utils.h"
+#include "Border.h"
 
 namespace gst {
 
@@ -34,18 +36,12 @@ namespace gst {
 
 		void loadMap();
 
+		void checkForKeyboardKeyPressed();
+
 		void detectCollisions();
 
-		void correctCollisionTop(WorldBloc& bloc);
-		void correctCollisionBottom(WorldBloc& bloc);
-		void correctCollisionLeft(WorldBloc& bloc);
-		void correctCollisionRight(WorldBloc& bloc);
-
-		void keyPressed(sf::Event e);
-
-		void keyReleased(sf::Event e);
-
-		void checkForKeyboardKeyPressed();
+		bool playerIntersects(WorldBloc& bloc, Border& return_border);
+		
 	};
 
 }

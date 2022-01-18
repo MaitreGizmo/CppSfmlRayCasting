@@ -14,7 +14,7 @@ Player::Player() = default;
 Player::Player(Vector2f initPos) {
 	_position = initPos;
 
-	float radius = PLAYER_SIZE / 2.0f;
+	float radius = PLAYER_RADIUS;
 
 	_shape = CircleShape(radius);
 	_shape.setFillColor(Color::Red);
@@ -47,6 +47,10 @@ void Player::applyMove() {
 	_position += Vector2f(moveX, moveY);
 }
 
+float Player::getRotation() {
+	return _rotation;
+}
+
 void Player::rotateLeft() {
 	_rotation -= Utils::degToRad(ROTATION_SPEED);
 
@@ -63,12 +67,12 @@ void Player::correctRotationMultiples() {
 	float rad360deg = Utils::degToRad(360.0f);
 
 	if (_rotation > rad360deg) {
-		int mult = int(_rotation) % int(rad360deg);
+		int mult = _rotation / rad360deg;
 
 		_rotation -= float(mult) * rad360deg;
 	}
 	else if (_rotation < (-1.0f) * rad360deg) {
-		int mult = abs(int(_rotation)) % abs(int(rad360deg));
+		int mult = abs(_rotation / rad360deg);
 
 		_rotation += float(mult) * rad360deg;
 	}
@@ -80,4 +84,33 @@ void Player::moveForward() {
 
 void Player::stopMoveForward() {
 	_speed = 0.0f;
+}
+
+Vector2f& Player::getPos() {
+	return _position;
+}
+
+FloatRect Player::getGlobalBounds() {
+	return _shape.getGlobalBounds();
+}
+
+FloatRect Player::getLocalBounds() {
+	return _shape.getLocalBounds();
+}
+
+//bool Player::contains(Vector2f point) {
+//	float a = abs(_position.x - point.x);
+//	float b = abs(_position.y - point.y);
+//
+//	float c = sqrt(pow(a, 2.0f) + pow(b, 2.0f));
+//
+//	return c <= PLAYER_RADIUS;
+//}
+
+void Player::moveX(float delta) {
+	_position.x += delta;
+}
+
+void Player::moveY(float delta){
+	_position.y += delta;
 }

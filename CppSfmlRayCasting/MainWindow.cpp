@@ -1,9 +1,12 @@
 #include <iostream>
 #include <chrono>
 #include <cmath>
+#include <vector>
 
 #include "MainWindow.h"
 #include "Settings.h"
+#include "Utils.h"
+#include "Border.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -53,12 +56,6 @@ void MainWindow::dispatchEvents() {
 		case Event::Closed:
 			close();
 			break;
-		case Event::KeyPressed:
-			keyPressed(e);
-			break;
-		case Event::KeyReleased:
-			keyReleased(e);
-			break;
 		}
 	}
 }
@@ -102,255 +99,6 @@ void MainWindow::loadMap() {
 	}
 }
 
-void MainWindow::detectCollisions() {
-	//FloatRect playerHitbox = _player.getVertexRef().getBounds();
-
-	//const size_t TOP = 0;
-	//const size_t BOTTOM = 1;
-	//const size_t LEFT = 2;
-	//const size_t RIGHT = 3;
-
-	//vector<vector<WorldBloc>> intersections(4, vector<WorldBloc>(0));
-
-	//int intersectionsCount = 0;
-
-	//bool topLeft = false;
-	//bool topRight = false;
-	//bool bottomLeft = false;
-	//bool bottomRight = false;
-
-	//WorldBloc blocTopLeft;
-	//WorldBloc blocTopRight;
-	//WorldBloc blocBottomLeft;
-	//WorldBloc blocBottomRight;
-
-	//for (WorldBloc& bloc : _world) {
-	//	if (_player.getVertexRef().getBounds().intersects(bloc.getVertexRef().getBounds())) {
-
-	//		intersectionsCount++;
-
-	//		float px = _player.getPos().x;
-	//		float py = _player.getPos().y;
-
-	//		float bx = bloc.getPos().x;
-	//		float by = bloc.getPos().y;
-
-	//		FloatRect playerHitBox = _player.getVertexRef().getBounds();
-	//		FloatRect blocHitBox = bloc.getVertexRef().getBounds();
-
-	//		if (blocHitBox.contains(Vector2f(px, py))) {
-	//			topLeft = true;
-	//			blocTopLeft = bloc;
-	//			cout << "> blocTopLeft found" << endl;
-	//		}
-
-	//		if (blocHitBox.contains(Vector2f(px + PLAYER_SIZE, py))) {
-	//			topRight = true;
-	//			blocTopRight = bloc;
-	//			cout << "> blocTopRight found" << endl;
-	//		}
-
-	//		if (blocHitBox.contains(Vector2f(px, py + PLAYER_SIZE))) {
-	//			bottomLeft = true;
-	//			blocBottomLeft = bloc;
-	//			cout << "> blocBottomLeft found" << endl;
-	//		}
-
-	//		if (blocHitBox.contains(Vector2f(px + PLAYER_SIZE, py + PLAYER_SIZE))) {
-	//			bottomRight = true;
-	//			blocBottomRight = bloc;
-	//			cout << "> blocBottomRight found" << endl;
-	//		}
-	//	}
-	//}
-
-	//if (intersectionsCount > 0) {
-	//	cout << "> intersections count : " << intersectionsCount << endl;
-
-	//	float mx = _player.getMove().x;
-	//	float my = _player.getMove().y;
-
-	//	// player go left
-	//	if (mx < 0.0f && (topLeft || bottomLeft)) {
-
-	//		// player go top
-	//		if (my < 0.0f) {
-	//			// => top / left
-	//			correctCollisionTop(blocTopLeft);
-	//			correctCollisionLeft(blocTopLeft);
-
-	//			return;
-	//		}
-
-	//		// player go bottom
-	//		if (my > 0.0f) {
-	//			// => bottom / left
-	//			correctCollisionBottom(blocBottomLeft);
-	//			correctCollisionLeft(blocBottomLeft);
-
-	//			return;
-	//		}
-
-	//		// player don't move on Y axis
-	//		if (my == 0.0f) {
-	//			// => left
-	//			correctCollisionLeft(blocTopLeft);
-	//			correctCollisionLeft(blocBottomLeft);
-
-	//			return;
-	//		}
-
-	//	}
-
-	//	// player go right
-	//	if (mx > 0.0f && (topRight || bottomRight)) {
-
-	//		// player go top
-	//		if (my < 0.0f) {
-	//			// => top / right
-	//			correctCollisionTop(blocTopRight);
-	//			correctCollisionRight(blocTopRight);
-
-	//			return;
-	//		}
-
-	//		// player go bottom
-	//		if (my > 0.0f) {
-	//			// => bottom / right
-	//			correctCollisionBottom(blocBottomRight);
-	//			correctCollisionRight(blocBottomRight);
-
-	//			return;
-	//		}
-
-	//		// player don't move on Y axis
-	//		if (my == 0.0f) {
-	//			// => right
-	//			correctCollisionRight(blocBottomRight);
-	//			correctCollisionRight(blocTopRight);
-
-	//			return;
-	//		}
-
-	//	}
-
-	//	// player don't move on X axis
-	//	if (mx == 0.0f) {
-
-	//		// player go top
-	//		if (my < 0.0f) {
-	//			// => top
-	//			correctCollisionTop(blocTopLeft);
-	//			correctCollisionTop(blocTopRight);
-
-	//			return;
-	//		}
-
-	//		// player go bottom
-	//		if (my > 0.0f) {
-	//			// => bottom
-	//			correctCollisionBottom(blocBottomLeft);
-	//			correctCollisionBottom(blocBottomRight);
-
-	//			return;
-	//		}
-
-	//		// player don't move on Y axis
-	//		if (my == 0.0f) {
-	//			// => static
-	//			correctCollisionLeft(blocTopLeft);
-	//			correctCollisionLeft(blocBottomLeft);
-
-	//			correctCollisionRight(blocTopRight);
-	//			correctCollisionRight(blocBottomRight);
-
-	//			correctCollisionTop(blocTopLeft);
-	//			correctCollisionTop(blocTopRight);
-
-	//			correctCollisionBottom(blocBottomLeft);
-	//			correctCollisionBottom(blocBottomRight);
-
-	//			return;
-	//		}
-
-	//	}
-	//}
-}
-
-void MainWindow::keyPressed(Event e) {
-	switch (e.key.code) {
-	case Keyboard::Left:
-
-		break;
-	case Keyboard::Right:
-
-		break;
-	case Keyboard::Up:
-
-		break;
-	case Keyboard::Down:
-
-		break;
-	}
-}
-
-void MainWindow::keyReleased(Event e) {
-	switch (e.key.code) {
-	case Keyboard::Left:
-
-		break;
-	case Keyboard::Right:
-
-		break;
-	case Keyboard::Up:
-
-		break;
-	case Keyboard::Down:
-
-		break;
-	}
-}
-
-void MainWindow::correctCollisionTop(WorldBloc& bloc) {
-	/*if (_player.getVertexRef().getBounds().intersects(bloc.getVertexRef().getBounds())) {
-		float py = _player.getPos().y;
-		float by = bloc.getPos().y;
-
-		float delta = (by + WORLD_BLOC_SIZE) - py;
-		_player.setPosY(py + delta);
-	}*/
-}
-
-void MainWindow::correctCollisionBottom(WorldBloc& bloc) {
-	/*if (_player.getVertexRef().getBounds().intersects(bloc.getVertexRef().getBounds())) {
-		float py = _player.getPos().y;
-		float by = bloc.getPos().y;
-
-		float delta = (py + PLAYER_SIZE) - by;
-		_player.setPosY(py - delta);
-	}*/
-}
-
-void MainWindow::correctCollisionLeft(WorldBloc& bloc) {
-	/*if (_player.getVertexRef().getBounds().intersects(bloc.getVertexRef().getBounds())) {
-		float px = _player.getPos().x;
-		float bx = bloc.getPos().x;
-
-		float delta = (bx + WORLD_BLOC_SIZE) - px;
-		_player.setPosX(px + delta);
-	}*/
-}
-
-void MainWindow::correctCollisionRight(WorldBloc& bloc) {
-	/*if (_player.getVertexRef().getBounds().intersects(bloc.getVertexRef().getBounds())) {
-		float px = _player.getPos().x;
-		float bx = bloc.getPos().x;
-
-		float delta = (px + PLAYER_SIZE) - bx;
-		_player.setPosX(px - delta);
-	}*/
-}
-
 void MainWindow::checkForKeyboardKeyPressed() {
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
 		_player.rotateLeft();
@@ -365,5 +113,82 @@ void MainWindow::checkForKeyboardKeyPressed() {
 	}
 	else {
 		_player.stopMoveForward();
+	}
+}
+
+bool MainWindow::playerIntersects(WorldBloc& bloc, Border& return_border) {
+
+	Vector2f bpos = bloc.getPos();
+	Vector2f ppos = _player.getPos();
+
+	vector<Border> borders = {
+		Border(Vector2f(bpos.x + WORLD_BLOC_SIZE, bpos.y), Direction::TOP),
+		Border(Vector2f(bpos.x, bpos.y + WORLD_BLOC_SIZE), Direction::BOTTOM),
+		Border(Vector2f(bpos.x, bpos.y), Direction::LEFT),
+		Border(Vector2f(bpos.x + WORLD_BLOC_SIZE, bpos.y + WORLD_BLOC_SIZE), Direction::RIGHT)
+	};
+
+	for (int i = 0; i < WORLD_BLOC_SIZE; ++i) {
+		for (Border& border : borders) {
+			border._temp_delta = Utils::getDelta(ppos, border._point);
+
+			if (border._temp_delta < PLAYER_RADIUS) {
+				border._collision = true;
+				if (border._temp_delta < border._delta) {
+					border._delta = border._temp_delta;
+				}
+			}
+
+			border.nextPoint();
+		}
+	}
+
+	vector<Border> collisions;
+
+	for (Border& border : borders) {
+		if (border._collision)
+			collisions.push_back(border);
+	}
+
+	if (!collisions.empty()) {
+		return_border = *min_element(collisions.begin(), collisions.end(), [](Border& a, Border& b) {return a._delta < b._delta;});
+
+		return true;
+	}
+
+	return false;
+}
+
+void MainWindow::detectCollisions() {
+
+	FloatRect playerGlobalBounds = _player.getGlobalBounds();
+	FloatRect playerLocalBounds = _player.getLocalBounds();
+
+	int counter = 0;
+
+	for (WorldBloc& bloc : _world) {
+		if (playerGlobalBounds.intersects(bloc.getBounds())) {
+			Border border;
+
+			if (playerIntersects(bloc, border)) {
+
+				float delta = PLAYER_RADIUS - border._delta;
+
+				switch (border._direction) {
+				case Direction::TOP:
+					_player.moveY((-1.0f) * delta);
+					break;
+				case Direction::BOTTOM:
+					_player.moveY(delta);
+					break;
+				case Direction::LEFT:
+					_player.moveX((-1.0f) * delta);
+					break;
+				case Direction::RIGHT:
+					_player.moveX(delta);
+					break;
+				}
+			}
+		}
 	}
 }

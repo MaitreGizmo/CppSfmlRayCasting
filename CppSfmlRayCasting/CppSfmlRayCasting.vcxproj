@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Border.cpp" />
     <ClCompile Include="CppSfmlRayCasting.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -149,6 +150,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Border.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Settings.h" />

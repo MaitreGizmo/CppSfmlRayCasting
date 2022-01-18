@@ -14,11 +14,23 @@ namespace gst {
 
 		void applyMove();
 
+		float getRotation();
+
 		void rotateLeft();
 		void rotateRight();
 
 		void moveForward();
 		void stopMoveForward();
+
+		sf::Vector2f& getPos();
+
+		sf::FloatRect getGlobalBounds();
+		sf::FloatRect getLocalBounds();
+
+		//bool contains(sf::Vector2f point);
+
+		void moveX(float delta);
+		void moveY(float delta);
 
 	private:
 		sf::Vector2f _position;

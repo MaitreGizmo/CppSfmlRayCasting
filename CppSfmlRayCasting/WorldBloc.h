@@ -20,6 +20,8 @@ namespace gst {
 
 		sf::VertexArray& getVertexRef();
 
+		sf::FloatRect getBounds();
+
 		static gst::WorldBlocType getType(sf::Color color);
 
 	private:
