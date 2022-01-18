@@ -80,10 +80,22 @@ void Player::correctRotationMultiples() {
 
 void Player::moveForward() {
 	_speed = PLAYER_SPEED;
+	_direction = Direction::FORWARD;
 }
 
 void Player::stopMoveForward() {
 	_speed = 0.0f;
+	_direction = Direction::NONE;
+}
+
+void Player::moveBackward() {
+	_speed = (-1.0f) * PLAYER_SPEED;
+	_direction = Direction::BACKWARD;
+}
+
+void Player::stopMoveBackward() {
+	_speed = 0.0f;
+	_direction = Direction::NONE;
 }
 
 Vector2f& Player::getPos() {
@@ -98,19 +110,14 @@ FloatRect Player::getLocalBounds() {
 	return _shape.getLocalBounds();
 }
 
-//bool Player::contains(Vector2f point) {
-//	float a = abs(_position.x - point.x);
-//	float b = abs(_position.y - point.y);
-//
-//	float c = sqrt(pow(a, 2.0f) + pow(b, 2.0f));
-//
-//	return c <= PLAYER_RADIUS;
-//}
-
 void Player::moveX(float delta) {
 	_position.x += delta;
 }
 
 void Player::moveY(float delta){
 	_position.y += delta;
+}
+
+Direction Player::getDirection() {
+	return _direction;
 }

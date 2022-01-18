@@ -14,10 +14,14 @@ namespace gst {
 
 	enum class Direction {
 		NONE = 0,
+
 		TOP,
 		BOTTOM,
 		LEFT,
-		RIGHT
+		RIGHT,
+
+		FORWARD,
+		BACKWARD
 	};
 
 }

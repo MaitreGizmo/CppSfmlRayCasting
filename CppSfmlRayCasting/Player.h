@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "Utils.h"
+
 #include <SFML/Graphics.hpp>
 
 namespace gst {
@@ -22,21 +24,26 @@ namespace gst {
 		void moveForward();
 		void stopMoveForward();
 
+		void moveBackward();
+		void stopMoveBackward();
+
 		sf::Vector2f& getPos();
 
 		sf::FloatRect getGlobalBounds();
 		sf::FloatRect getLocalBounds();
 
-		//bool contains(sf::Vector2f point);
-
 		void moveX(float delta);
 		void moveY(float delta);
+
+		Direction getDirection();
 
 	private:
 		sf::Vector2f _position;
 
 		float _rotation = 0.0f;
 		float _speed = 0.0f;
+
+		Direction _direction = Direction::NONE;
 
 		sf::CircleShape _shape;
 		sf::RectangleShape _line;

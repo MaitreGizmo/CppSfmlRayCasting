@@ -111,8 +111,15 @@ void MainWindow::checkForKeyboardKeyPressed() {
 	if (Keyboard::isKeyPressed(Keyboard::Up)) {
 		_player.moveForward();
 	}
-	else {
+	else if(_player.getDirection() == Direction::FORWARD) {
 		_player.stopMoveForward();
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::Down)) {
+		_player.moveBackward();
+	}
+	else if(_player.getDirection() == Direction::BACKWARD) {
+		_player.stopMoveBackward();
 	}
 }
 
