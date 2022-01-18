@@ -141,9 +141,11 @@
   <ItemGroup>
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="CppSfmlRayCasting.cpp" />
+    <ClCompile Include="FieldOfView.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldBloc.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,10 +153,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Border.h" />
+    <ClInclude Include="FieldOfView.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="World.h" />
     <ClInclude Include="WorldBloc.h" />
   </ItemGroup>
   <ItemGroup>

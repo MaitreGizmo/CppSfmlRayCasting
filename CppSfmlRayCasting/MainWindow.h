@@ -10,6 +10,8 @@
 #include "Player.h"
 #include "Utils.h"
 #include "Border.h"
+#include "FieldOfView.h"
+#include "World.h"
 
 namespace gst {
 
@@ -25,8 +27,10 @@ namespace gst {
 		std::string _title;
 		sf::RenderWindow _window;
 
-		std::vector<WorldBloc> _world;
+		World _world;
+		//std::vector<WorldBloc> _world;
 		Player _player;
+		FieldOfView _fieldOfView;
 
 		void dispatchEvents();
 

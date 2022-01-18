@@ -14,15 +14,17 @@ namespace gst {
 
 		sf::Vector2f getPos();
 
-		sf::Vector2i& getGridPos();
-
 		sf::VertexArray getVertex();
 
 		sf::VertexArray& getVertexRef();
 
 		sf::FloatRect getBounds();
 
-		static gst::WorldBlocType getType(sf::Color color);
+		static WorldBlocType getType(sf::Color color);
+
+		WorldBlocType getType();
+
+		void setColor(sf::Color color);
 
 	private:
 		sf::Vector2f _position;

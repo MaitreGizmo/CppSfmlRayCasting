@@ -53,5 +53,4 @@ namespace gst {
 	};
 }
 
-
 #endif //PLAYER_H

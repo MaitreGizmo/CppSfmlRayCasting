@@ -14,8 +14,10 @@ int main()
 
 	window.render();
 
-	cout << "Press ENTER to quit ...";
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	if (STOP_AT_END) {
+		cout << "Press ENTER to quit ...";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
 
 	return EXIT_SUCCESS;
 }

@@ -64,3 +64,13 @@ FloatRect WorldBloc::getBounds() {
 	return _vertex.getBounds();
 }
 
+WorldBlocType WorldBloc::getType() {
+	return _type;
+}
+
+void WorldBloc::setColor(Color color) {
+	_vertex[0].color = color;
+	_vertex[1].color = color;
+	_vertex[2].color = color;
+	_vertex[3].color = color;
+}

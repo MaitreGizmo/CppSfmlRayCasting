@@ -7,6 +7,7 @@
 #include "Settings.h"
 #include "Utils.h"
 #include "Border.h"
+#include "FieldOfView.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -17,14 +18,16 @@ MainWindow::MainWindow(unsigned width, unsigned height, const string& title) {
 	_width = width;
 	_height = height;
 	_title = title;
+
+	_player = Player(Vector2f(1200, 100));
+
+	_world.loadMap(MAP_FILE_LOCATION);
+
+	_fieldOfView = FieldOfView(&_world, &_player);
 }
 
 void MainWindow::render() {
 	_window.create(VideoMode(_width, _height), _title, Style::Close);
-
-	loadMap();
-
-	_player = Player(Vector2f(1200, 100));
 
 	time_point<system_clock> timePoint = system_clock::now();
 
@@ -37,6 +40,8 @@ void MainWindow::render() {
 			checkForKeyboardKeyPressed();
 
 			_player.applyMove();
+
+			_fieldOfView.refresh();
 
 			detectCollisions();
 
@@ -64,39 +69,25 @@ void MainWindow::displayFrame() {
 	_window.clear(WINDOW_BACK_COLOR);
 
 	// display world
-	for (WorldBloc& bloc : _world) {
+	for (WorldBloc& bloc : _world.getBlocs()) {
 		_window.draw(bloc.getVertexRef());
 	}
 
+	if (SHOW_DEBUG) {
+		WorldBloc current = _world.getBloc(_player.getPos());
+		current.setColor(Color(185, 0, 255));
+		_window.draw(current.getVertexRef());
+	}
+
 	_player.draw(_window);
+
+	_fieldOfView.draw(_window);
 
 	_window.display();
 }
 
 void MainWindow::close() {
 	_window.close();
-}
-
-void MainWindow::loadMap() {
-	Image map;
-	map.loadFromFile(MAP_FILE_LOCATION);
-
-	for (int x = 0; x < 80; ++x) {
-		float posX = x * WORLD_BLOC_SIZE;
-
-		for (int y = 0; y < 40; ++y) {
-			Color color = map.getPixel(x, y);
-
-			if (WorldBloc::getType(color) != WorldBlocType::BACKGROUND) {
-				Vector2f pos(posX, y * WORLD_BLOC_SIZE);
-				Vector2i gridPos(x, y);
-
-				WorldBloc bloc(pos, color, WORLD_BLOC_SIZE, gridPos);
-
-				_world.push_back(bloc);
-			}
-		}
-	}
 }
 
 void MainWindow::checkForKeyboardKeyPressed() {
@@ -111,14 +102,14 @@ void MainWindow::checkForKeyboardKeyPressed() {
 	if (Keyboard::isKeyPressed(Keyboard::Up)) {
 		_player.moveForward();
 	}
-	else if(_player.getDirection() == Direction::FORWARD) {
+	else if (_player.getDirection() == Direction::FORWARD) {
 		_player.stopMoveForward();
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::Down)) {
 		_player.moveBackward();
 	}
-	else if(_player.getDirection() == Direction::BACKWARD) {
+	else if (_player.getDirection() == Direction::BACKWARD) {
 		_player.stopMoveBackward();
 	}
 }
@@ -169,31 +160,38 @@ bool MainWindow::playerIntersects(WorldBloc& bloc, Border& return_border) {
 void MainWindow::detectCollisions() {
 
 	FloatRect playerGlobalBounds = _player.getGlobalBounds();
-	FloatRect playerLocalBounds = _player.getLocalBounds();
 
-	int counter = 0;
+	Vector2i currentGridPos(_player.getPos().x / WORLD_BLOC_SIZE, _player.getPos().y / WORLD_BLOC_SIZE);
 
-	for (WorldBloc& bloc : _world) {
-		if (playerGlobalBounds.intersects(bloc.getBounds())) {
-			Border border;
+	for (int d_x = -2; d_x <= 2; ++d_x) {
+		for (int d_y = -2; d_y <= 2; ++d_y) {
+			if (currentGridPos.x + d_x >= 0 && currentGridPos.y + d_y >= 0) {
+				WorldBloc& bloc = _world.getBloc(Vector2i(currentGridPos.x + d_x, currentGridPos.y + d_y));
 
-			if (playerIntersects(bloc, border)) {
+				if (bloc.getType() != WorldBlocType::BACKGROUND) {
+					if (playerGlobalBounds.intersects(bloc.getBounds())) {
+						Border border;
 
-				float delta = PLAYER_RADIUS - border._delta;
+						if (playerIntersects(bloc, border)) {
 
-				switch (border._direction) {
-				case Direction::TOP:
-					_player.moveY((-1.0f) * delta);
-					break;
-				case Direction::BOTTOM:
-					_player.moveY(delta);
-					break;
-				case Direction::LEFT:
-					_player.moveX((-1.0f) * delta);
-					break;
-				case Direction::RIGHT:
-					_player.moveX(delta);
-					break;
+							float delta = PLAYER_RADIUS - border._delta;
+
+							switch (border._direction) {
+							case Direction::TOP:
+								_player.moveY((-1.0f) * delta);
+								break;
+							case Direction::BOTTOM:
+								_player.moveY(delta);
+								break;
+							case Direction::LEFT:
+								_player.moveX((-1.0f) * delta);
+								break;
+							case Direction::RIGHT:
+								_player.moveX(delta);
+								break;
+							}
+						}
+					}
 				}
 			}
 		}
