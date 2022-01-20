@@ -58,9 +58,22 @@ void FieldOfView::draw3dRender(RenderWindow & window) {
 		float delta_x = _rays[i][1].position.x - _rays[i][0].position.x;
 		float delta_y = _rays[i][1].position.y - _rays[i][0].position.y;
 
-		float distance = sqrt(pow(delta_x, 2.0f) + pow(delta_y, 2.0f));
+		float distorted_distance = sqrt(pow(delta_x, 2.0f) + pow(delta_y, 2.0f));
 
-		distances[i] = distance;
+		float angle = 0.0f;
+
+		if (abs(delta_y) >= abs(delta_x)) {
+			// player facing top/bottom
+			angle = tanh(delta_x / delta_y);
+		}
+		else {
+			// player facing left/right
+			angle = tanh(delta_y / delta_x);
+		}
+
+		float correct_distance = distorted_distance * cos(angle);
+
+		distances[i] = correct_distance;
 	}
 
 	float min_dist = *min_element(distances.begin(), distances.end());
