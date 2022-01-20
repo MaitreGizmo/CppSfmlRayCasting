@@ -16,7 +16,8 @@ namespace gst {
 		FieldOfView();
 		FieldOfView(World* world, Player* player);
 
-		void draw(sf::RenderWindow& window);
+		void drawRays(sf::RenderWindow& window);
+		void draw3dRender(sf::RenderWindow& window);
 
 		void refresh();
 
@@ -24,7 +25,11 @@ namespace gst {
 		World* _world = nullptr;
 		Player* _player = nullptr;
 
+		std::vector<sf::VertexArray> _rays;
+
 		std::vector<sf::VertexArray> _lines;
+
+
 
 
 	};

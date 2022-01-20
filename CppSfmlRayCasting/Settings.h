@@ -27,8 +27,9 @@ namespace gst {
 	static const float			PI					= 3.14159265359f;
 
 	static const float			FIELD_OF_VIEW		= 75.0f;
-	static const float			RAY_DIFF_ANGLE		= 0.5f;
-	static const float			DEPTH_OF_VIEW		= 200.0f;
+	static const float			RAY_DIFF_ANGLE		= FIELD_OF_VIEW / WINDOW_WIDTH;
+	static const float			DEPTH_OF_VIEW		= 250.0f;
+	static const float			RENDER_DISTANCE		= 200.0f;
 
 
 	enum class WorldBlocType {

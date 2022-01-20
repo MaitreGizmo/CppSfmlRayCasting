@@ -26,19 +26,15 @@ namespace gst {
 		unsigned _height;
 		std::string _title;
 		sf::RenderWindow _window;
+		sf::RenderWindow _window_3d;
 
 		World _world;
-		//std::vector<WorldBloc> _world;
 		Player _player;
 		FieldOfView _fieldOfView;
 
 		void dispatchEvents();
 
 		void displayFrame();
-
-		void close();
-
-		void loadMap();
 
 		void checkForKeyboardKeyPressed();
 

@@ -145,6 +145,7 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldBloc.cpp" />
   </ItemGroup>
@@ -158,6 +159,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Wall.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldBloc.h" />
   </ItemGroup>

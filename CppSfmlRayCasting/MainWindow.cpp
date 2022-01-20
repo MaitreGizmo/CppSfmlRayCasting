@@ -28,10 +28,11 @@ MainWindow::MainWindow(unsigned width, unsigned height, const string& title) {
 
 void MainWindow::render() {
 	_window.create(VideoMode(_width, _height), _title, Style::Close);
+	_window_3d.create(VideoMode(_width, _height), _title + " - 3D", Style::Close);
 
 	time_point<system_clock> timePoint = system_clock::now();
 
-	while (_window.isOpen()) {
+	while (_window.isOpen() || _window_3d.isOpen()) {
 		if ((system_clock::now().time_since_epoch() - timePoint.time_since_epoch()) >=
 			chrono::milliseconds(TIME_PER_FRAME)) {
 
@@ -56,38 +57,55 @@ void MainWindow::render() {
 void MainWindow::dispatchEvents() {
 	Event e;
 
-	while (_window.pollEvent(e)) {
-		switch (e.type) {
-		case Event::Closed:
-			close();
-			break;
+	if (_window.isOpen()) {
+		while (_window.pollEvent(e)) {
+			switch (e.type) {
+			case Event::Closed:
+				_window.close();
+				break;
+			}
+		}
+	}
+
+	if (_window_3d.isOpen()) {
+		while (_window_3d.pollEvent(e)) {
+			switch (e.type) {
+			case Event::Closed:
+				_window_3d.close();
+				break;
+			}
 		}
 	}
 }
 
 void MainWindow::displayFrame() {
-	_window.clear(WINDOW_BACK_COLOR);
+	if (_window.isOpen()) {
+		_window.clear(WINDOW_BACK_COLOR);
 
-	// display world
-	for (WorldBloc& bloc : _world.getBlocs()) {
-		_window.draw(bloc.getVertexRef());
+		for (WorldBloc& bloc : _world.getBlocs()) {
+			_window.draw(bloc.getVertexRef());
+		}
+
+		if (SHOW_DEBUG) {
+			WorldBloc current = _world.getBloc(_player.getPos());
+			current.setColor(Color(185, 0, 255));
+			_window.draw(current.getVertexRef());
+		}
+
+		_player.draw(_window);
+
+		_fieldOfView.drawRays(_window);
+
+		_window.display();
 	}
 
-	if (SHOW_DEBUG) {
-		WorldBloc current = _world.getBloc(_player.getPos());
-		current.setColor(Color(185, 0, 255));
-		_window.draw(current.getVertexRef());
+	if (_window_3d.isOpen()) {
+		_window_3d.clear(WINDOW_BACK_COLOR);
+
+		_fieldOfView.draw3dRender(_window_3d);
+
+		_window_3d.display();
 	}
-
-	_player.draw(_window);
-
-	_fieldOfView.draw(_window);
-
-	_window.display();
-}
-
-void MainWindow::close() {
-	_window.close();
 }
 
 void MainWindow::checkForKeyboardKeyPressed() {
