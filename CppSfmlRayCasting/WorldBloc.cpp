@@ -74,3 +74,7 @@ void WorldBloc::setColor(Color color) {
 	_vertex[2].color = color;
 	_vertex[3].color = color;
 }
+
+Vector2i WorldBloc::getGridPos() {
+	return _gridPos;
+}

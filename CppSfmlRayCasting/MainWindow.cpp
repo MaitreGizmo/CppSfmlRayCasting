@@ -19,7 +19,7 @@ MainWindow::MainWindow(unsigned width, unsigned height, const string& title) {
 	_height = height;
 	_title = title;
 
-	_player = Player(Vector2f(1200, 100));
+	_player = Player(Vector2f(600.0f, 50.0f));
 
 	_world.loadMap(MAP_FILE_LOCATION);
 

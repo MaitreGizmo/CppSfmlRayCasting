@@ -20,9 +20,15 @@ namespace gst {
 		WorldBloc& getBloc(sf::Vector2f pos);
 
 		std::vector<WorldBloc>& getBlocs();
+
+		int getWidth();
+		int getHeight();
 	private:
 		std::vector<std::vector<WorldBloc>> _mappedWorld;
 		std::vector<WorldBloc> _blocs;
+
+		int _width = 0;
+		int _height = 0;
 	};
 }
 

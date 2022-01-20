@@ -26,6 +26,8 @@ namespace gst {
 
 		void setColor(sf::Color color);
 
+		sf::Vector2i getGridPos();
+
 	private:
 		sf::Vector2f _position;
 		sf::Vector2i _gridPos;

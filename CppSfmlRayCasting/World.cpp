@@ -14,6 +14,9 @@ void World::loadMap(const string & path) {
 	unsigned width = map.getSize().x;
 	unsigned height = map.getSize().y;
 
+	_width = width;
+	_height = height;
+
 	_mappedWorld = vector<vector<WorldBloc>>(width, vector<WorldBloc>(height));
 
 	for (int x = 0; x < width; ++x) {
@@ -49,4 +52,12 @@ WorldBloc& World::getBloc(Vector2f pos) {
 
 vector<WorldBloc>& World::getBlocs() {
 	return _blocs;
+}
+
+int World::getWidth() {
+	return _width;
+}
+
+int World::getHeight() {
+	return _height;
 }

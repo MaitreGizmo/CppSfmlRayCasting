@@ -68,27 +68,94 @@ void FieldOfView::draw3dRender(RenderWindow & window) {
 
 	float alpha_width = delta_dist / 255.0f;
 
+	static Color color_left_right = Color(255, 0, 0);
+	static Color color_top_bottom = Color(0, 255, 0);
+	static Color color_corner = Color(0, 0, 0);
+
 	for (unsigned i = 0; i < nb_lines; ++i) {
-		if (distances[i] <= RENDER_DISTANCE) {
-			if (_world->getBloc(Vector2f(_rays[i][1].position.x, _rays[i][1].position.y)).getType() != WorldBlocType::BACKGROUND) {
-				float alpha_variation = distances[i] * alpha_width;
+		WorldBloc& bloc = _world->getBloc(Vector2f(_rays[i][1].position.x, _rays[i][1].position.y));
 
-				alpha_variation = 255.0f - alpha_variation;
+		if (bloc.getType() != WorldBlocType::BACKGROUND) {
 
-				Color color(0, 255, 0, int(alpha_variation));
+			static int bloc_size = int(WORLD_BLOC_SIZE);
 
-				float delta_height = (distances[i] * WINDOW_HEIGHT) / DEPTH_OF_VIEW;
+			int ray_x = int(round(_rays[i][1].position.x));
+			int ray_y = int(round(_rays[i][1].position.y));
 
-				float line_height = WINDOW_HEIGHT - delta_height;
-
-				_lines[i][0].position = Vector2f(i * line_width, delta_height / 2.0f);
-				_lines[i][1].position = Vector2f(i * line_width, (delta_height / 2.0f) + line_height);
-
-				_lines[i][0].color = color;
-				_lines[i][1].color = color;
-
-				window.draw(_lines[i]);
+			if (ray_x % bloc_size != 0) {
+				ray_x = int(round(_rays[i][1].position.x + 0.5f));
 			}
+
+			if (ray_y % bloc_size != 0) {
+				ray_y = int(round(_rays[i][1].position.y + 0.5f));
+			}
+
+			if (ray_x % bloc_size != 0) {
+				ray_x = int(round(_rays[i][1].position.x - 0.5f));
+			}
+
+			if (ray_y % bloc_size != 0) {
+				ray_y = int(round(_rays[i][1].position.y - 0.5f));
+			}
+
+			int bloc_x = int(bloc.getPos().x);
+			int bloc_y = int(bloc.getPos().y);
+
+			Color color;
+			Vector2i gridPos = bloc.getGridPos();
+
+			if (ray_x == bloc_x || ray_x == bloc_x + bloc_size) {
+				// left / right
+				bool bloc_left = false;
+				bool bloc_right = false;
+
+				if (gridPos.x - 1 >= 0 && _world->getBloc(Vector2i(gridPos.x - 1, gridPos.y)).getType() != WorldBlocType::BACKGROUND) {
+					bloc_left = true;
+				}
+
+				if (gridPos.x + 1 < _world->getWidth() && _world->getBloc(Vector2i(gridPos.x + 1, gridPos.y)).getType() != WorldBlocType::BACKGROUND) {
+					bloc_right = true;
+				}
+
+				if (bloc_left && bloc_right) {
+					color = color_top_bottom;
+				}
+				else {
+					color = color_left_right;
+				}
+			}
+			else if (ray_y == bloc_y || ray_y == bloc_y + bloc_size) {
+				// top / bottom
+				bool bloc_top = false;
+				bool bloc_bottom = false;
+
+				if (gridPos.y - 1 >= 0 && _world->getBloc(Vector2i(gridPos.x, gridPos.y - 1)).getType() != WorldBlocType::BACKGROUND) {
+					bloc_top = true;
+				}
+
+				if (gridPos.y + 1 < _world->getHeight() && _world->getBloc(Vector2i(gridPos.x, gridPos.y + 1)).getType() != WorldBlocType::BACKGROUND) {
+					bloc_bottom = true;
+				}
+
+				if (bloc_top && bloc_bottom) {
+					color = color_left_right;
+				}
+				else {
+					color = color_top_bottom;
+				}
+			}
+
+			float delta_height = (distances[i] * WINDOW_HEIGHT) / DEPTH_OF_VIEW;
+
+			float line_height = WINDOW_HEIGHT - delta_height;
+
+			_lines[i][0].position = Vector2f(i * line_width, delta_height / 2.0f);
+			_lines[i][1].position = Vector2f(i * line_width, (delta_height / 2.0f) + line_height);
+
+			_lines[i][0].color = color;
+			_lines[i][1].color = color;
+
+			window.draw(_lines[i]);
 		}
 	}
 
