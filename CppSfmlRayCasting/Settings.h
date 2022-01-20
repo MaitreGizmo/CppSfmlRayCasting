@@ -26,7 +26,7 @@ namespace gst {
 
 	static const float			PI					= 3.14159265359f;
 
-	static const float			FIELD_OF_VIEW		= 75.0f;
+	static const float			FIELD_OF_VIEW		= 60.0f;
 	static const float			RAY_DIFF_ANGLE		= FIELD_OF_VIEW / WINDOW_WIDTH;
 	static const float			DEPTH_OF_VIEW		= 300.0f;
 	static const float			RENDER_DISTANCE		= 250.0f;

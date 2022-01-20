@@ -58,7 +58,9 @@ void FieldOfView::draw3dRender(RenderWindow & window) {
 		float delta_x = _rays[i][1].position.x - _rays[i][0].position.x;
 		float delta_y = _rays[i][1].position.y - _rays[i][0].position.y;
 
-		distances[i] = sqrt(pow(delta_x, 2.0f) + pow(delta_y, 2.0f));
+		float distance = sqrt(pow(delta_x, 2.0f) + pow(delta_y, 2.0f));
+
+		distances[i] = distance;
 	}
 
 	float min_dist = *min_element(distances.begin(), distances.end());
